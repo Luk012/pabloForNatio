@@ -218,8 +218,8 @@ public class onlydrive extends LinearOpMode {
 
             double power = gamepad1.right_trigger - gamepad1.left_trigger;
 
-            r.leftBack.setPower(power);
-            r.rightBack.setPower(power);
+//            r.leftBack.setPower(power);
+//            r.rightBack.setPower(power);
 
             if(!previousGamepad1.right_bumper && currentGamepad1.right_bumper)
             {

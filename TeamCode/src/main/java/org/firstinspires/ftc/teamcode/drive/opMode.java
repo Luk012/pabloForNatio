@@ -151,6 +151,29 @@ public class opMode extends LinearOpMode {
          * OTHER INITS
          */
 
+        DcMotor rightFront = null;
+        DcMotor rightBack = null;
+        DcMotor leftFront = null;
+        DcMotor leftBack = null;
+        rightFront = hardwareMap.get(DcMotor.class,"rightFront");
+        leftFront = hardwareMap.get(DcMotor.class,"leftFront");
+        rightBack = hardwareMap.get(DcMotor.class,"rightBack");
+        leftBack = hardwareMap.get(DcMotor.class,"leftBack");
+
+
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         boolean StrafesOn = true;
 
         boolean drone_driver_1 = false;
@@ -222,7 +245,7 @@ public class opMode extends LinearOpMode {
             currentGamepad2.copy(gamepad2);
 
 
-            robotCentricDrive(r.leftFront, r.leftBack, r.rightFront, r.rightBack, SpeedLimit , StrafesOn , 0,0);
+            robotCentricDrive(leftFront,leftBack, rightFront, rightBack, SpeedLimit , StrafesOn , 0,0);
 
             /**
              * COLLECT

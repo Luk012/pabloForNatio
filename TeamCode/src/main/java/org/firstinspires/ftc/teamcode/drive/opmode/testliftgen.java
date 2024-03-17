@@ -126,10 +126,10 @@ public class testliftgen extends LinearOpMode {
             telemetry.addData("distance2", robot.pixelRight.getState());
             telemetry.addData("distance3", robot.back.getDistance(DistanceUnit.CM));
             telemetry.addData("distance4", robot.extendoDistance.getDistance(DistanceUnit.CM));
-            telemetry.addData("encoder1", robot.leftBack.getCurrentPosition());
-            telemetry.addData("encoder2", robot.leftFront.getCurrentPosition());
-            telemetry.addData("encoder3", robot.rightBack.getCurrentPosition());
-            telemetry.addData("encoder4", robot.rightFront.getCurrentPosition());
+//            telemetry.addData("encoder1", robot.leftBack.getCurrentPosition());
+//            telemetry.addData("encoder2", robot.leftFront.getCurrentPosition());
+//            telemetry.addData("encoder3", robot.rightBack.getCurrentPosition());
+//            telemetry.addData("encoder4", robot.rightFront.getCurrentPosition());
             if (Kp!=hello.p || Kd!=hello.d || Ki!=hello.i || maxSpeed !=hello.maxOutput )
             {
                 hello.p = Kp;

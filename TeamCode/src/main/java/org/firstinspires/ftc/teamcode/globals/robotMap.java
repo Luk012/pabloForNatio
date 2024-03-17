@@ -14,10 +14,10 @@ public class robotMap {
      * Chassis
      */
 
-    public DcMotorEx leftFront = null;
-    public DcMotorEx leftBack = null;
-    public DcMotorEx rightFront = null;
-    public DcMotorEx rightBack = null;
+//    public DcMotorEx leftFront = null;
+//    public DcMotorEx leftBack = null;
+//    public DcMotorEx rightFront = null;
+//    public DcMotorEx rightBack = null;
 
     /**
      * Intake
@@ -73,10 +73,10 @@ public class robotMap {
          * Chassis
          */
 
-        rightFront = Init.get(DcMotorEx.class, "rightFront");
-        leftFront = Init.get(DcMotorEx.class, "leftFront");
-        rightBack = Init.get(DcMotorEx.class, "rightBack");
-        leftBack = Init.get(DcMotorEx.class, "leftBack");
+//        rightFront = Init.get(DcMotorEx.class, "rightFront");
+//        leftFront = Init.get(DcMotorEx.class, "leftFront");
+//        rightBack = Init.get(DcMotorEx.class, "rightBack");
+//        leftBack = Init.get(DcMotorEx.class, "leftBack");
 
         /**
          * Intake
@@ -131,20 +131,20 @@ public class robotMap {
          *
          */
 
-        leftFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+//        leftFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+//        leftBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+//        rightFront.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+//        rightBack.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftFront.setDirection(DcMotorEx.Direction.REVERSE);
-        leftBack.setDirection(DcMotorEx.Direction.REVERSE);
-        rightFront.setDirection(DcMotorEx.Direction.FORWARD);
-        rightBack.setDirection(DcMotorEx.Direction.FORWARD);
-
-        leftBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        leftFront.setDirection(DcMotorEx.Direction.REVERSE);
+//        leftBack.setDirection(DcMotorEx.Direction.REVERSE);
+//        rightFront.setDirection(DcMotorEx.Direction.FORWARD);
+//        rightBack.setDirection(DcMotorEx.Direction.FORWARD);
+//
+//        leftBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        rightBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        rightFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         extendoLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         collect.setDirection(DcMotorSimple.Direction.REVERSE);
