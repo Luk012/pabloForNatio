@@ -47,7 +47,7 @@ public class transferController {
 
     public void update(robotMap r, doorController door, fourbarController fourbar, clawAngleController clawAngle, clawFlipController clawFlip, latchLeftController latchLeft, latchRightController latchRight, extendoController extendo)
     {
-        if(CS != PS || CS == INITIALIZE || CS == TRANSFER_EXTENDO || CS == TRANSFER_OPEN_DOOR || CS == TRANSFER_FOURBAR || CS == TRANSFER_LATCHES || CS == TRANSFER_DRIVE_POSE || CS == TRANSFER_CLOSE_DOOR || CS== TRANSFER_CLAW)
+        if(CS != PS || CS == INITIALIZE || CS == TRANSFER_EXTENDO || CS == TRANSFER_OPEN_DOOR || CS == TRANSFER_FOURBAR || CS == TRANSFER_LATCHES || CS == TRANSFER_DRIVE_POSE || CS == TRANSFER_CLOSE_DOOR || CS== TRANSFER_CLAW || CS == TRANSFER_DONE)
         {
             switch (CS)
             {
@@ -109,18 +109,18 @@ public class transferController {
 
                 case TRANSFER_DRIVE_POSE:
                 {
-                    if(fourbar_timer.seconds() > 0.3)
+                    if(fourbar_timer.seconds() > 0.4)
                     {
                         fourbar.CS = fourbarController.fourbarStatus.DRIVE;
                     }
-                    if(fourbar_timer.seconds() > 0.315)
+                    if(fourbar_timer.seconds() > 0.415)
                     {
                         clawFlip.CS = clawFlipController.clawFlipStatus.DRIVE;
                     }
                     if(fourbar_timer.seconds() > 0.5)
                     {
                         door_timer.reset();
-                        CS = TRANSFER_CLOSE_DOOR;
+                        CS = TRANSFER_DONE;
                     }
                     break;
 

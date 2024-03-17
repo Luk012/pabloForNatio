@@ -8,11 +8,18 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.globals.SimplePIDController;
 import org.firstinspires.ftc.teamcode.globals.robotMap;
 import org.firstinspires.ftc.teamcode.system_controllers.fourbarController;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -39,6 +46,31 @@ public class testliftgen extends LinearOpMode {
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
+
+        double loopTime = 0;
+
+        OpenCvWebcam test = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
+        test.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+
+                //test.setPipeline(redLeft);
+
+                test.startStreaming(640, 360, OpenCvCameraRotation.UPRIGHT);
+
+                //while (!redLeft.hasProcessedFrame || !yellowPixel.hasProcessedFrame) sleep(50);
+
+                //itemStatus = redLeft.getWhichSide();
+
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+
         ElapsedTime changePositions = new ElapsedTime();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robotMap robot = new robotMap(hardwareMap);
@@ -79,10 +111,25 @@ public class testliftgen extends LinearOpMode {
 
             fourbar.update(robot);
 
+
+            double loop = System.nanoTime();
+
+            telemetry.addData("hz ", 1000000000 / (loop - loopTime));
+
+            loopTime = loop;
+
             telemetry.addData("ColectareEncoder", DreaptaLiftPosition);
             telemetry.addData("powerColectare", powerDreaptaLift);
             telemetry.addData("TargetLift",hello.targetValue);
             telemetry.addData("Error", hello.measuredError(DreaptaLiftPosition));
+            telemetry.addData("distance 1", robot.pixelLeft.getState());
+            telemetry.addData("distance2", robot.pixelRight.getState());
+            telemetry.addData("distance3", robot.back.getDistance(DistanceUnit.CM));
+            telemetry.addData("distance4", robot.extendoDistance.getDistance(DistanceUnit.CM));
+            telemetry.addData("encoder1", robot.leftBack.getCurrentPosition());
+            telemetry.addData("encoder2", robot.leftFront.getCurrentPosition());
+            telemetry.addData("encoder3", robot.rightBack.getCurrentPosition());
+            telemetry.addData("encoder4", robot.rightFront.getCurrentPosition());
             if (Kp!=hello.p || Kd!=hello.d || Ki!=hello.i || maxSpeed !=hello.maxOutput )
             {
                 hello.p = Kp;

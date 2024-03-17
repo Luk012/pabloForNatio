@@ -48,7 +48,7 @@ public class outtakeController {
 
     public void update(robotMap r, liftController lift, fourbarController fourbar, clawFlipController clawFlip, clawAngleController clawAngle, doorController door, latchRightController latchRight, latchLeftController latchLeft)
     {
-        if(CS != PS || CS == INITIALIZE || CS == SCORE_FOURBAR || CS == SCORE_LIFT || CS == SCORE_CLAW || CS == COLLECT_LIFT || CS == COLLLECT_CLAW || CS == COLLECT_FOURBAR)
+        if(CS != PS || CS == INITIALIZE || CS == SCORE_FOURBAR || CS == SCORE_LIFT || CS == SCORE_CLAW || CS == COLLECT_LIFT || CS == COLLLECT_CLAW || CS == COLLECT_FOURBAR || CS == SCORE_DONE || CS == COLLECT_DONE)
         {
             switch (CS)
             {
@@ -69,6 +69,7 @@ public class outtakeController {
                 {
                     if(lift_timer.seconds() > 0.3)
                     {
+                        lift.pid = 1;
                         lift.CS = liftController.liftStatus.UP;
                         claw_timer.reset();
                         CS = SCORE_CLAW;
@@ -123,6 +124,7 @@ public class outtakeController {
                     latchLeft.CS = latchLeftController.LatchLeftStatus.CLOSED;
                     latchRight.CS = latchRightController.LatchRightStatus.CLOSED;
 
+                    lift.pid = 0;
                     lift.CS = liftController.liftStatus.DOWN;
                     claw_timer.reset();
                     CS = COLLECT_DONE;

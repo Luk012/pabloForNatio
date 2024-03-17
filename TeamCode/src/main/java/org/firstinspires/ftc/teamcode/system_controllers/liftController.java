@@ -16,6 +16,9 @@ public class liftController {
         INITIALIZE,
         DOWN,
         UP,
+        CYCLE,
+
+        PRELOAD_YELLOW,
     }
 
     public double CurrentSpeed = 0;
@@ -24,32 +27,47 @@ public class liftController {
      * UP
      */
 
-    public static double P1 = 0.027;
-    public static double I1 = 0;
-    public static double D1 = 0;
+//    public static double P1 = 0.03;
+//    public static double I1 = 0.0031;
+//    public static double D1 = 0;
+
+    public static double P1 = 0.0075;
+    public static double I1 = 0.0012;
+    public static double D1 = 0.001;
+
+    public static double P2 = 0.03;
+    public static double I2 = 0.0031;
+    public static double D2 = 0;
+
+    public double pid = 0;
 
     public double Kg = 0;
     public double maxSpeedUp = 1;
 
     public static liftStatus CS = INITIALIZE, PS = INITIALIZE;
 
-    SimplePIDController LiftPID = null;
+    SimplePIDController LiftPIDUP = null;
+    SimplePIDController LiftPIDDOWN = null;
 
 
     int base = 0;
 
-    public static double down = 90;
+    public static double down = 108;
 
     public static int i_up = 0;
-    public static double i_multiplication = 90;
+    public static double i_multiplication = 108;
 
     public int CurrentPosition = 0;
 
     public liftController()
     {
-        LiftPID = new SimplePIDController(P1,I1,D1);
-        LiftPID.targetValue = base;
-        LiftPID.maxOutput = maxSpeedUp;
+        LiftPIDUP = new SimplePIDController(P1,I1,D1);
+        LiftPIDUP.targetValue = base;
+        LiftPIDUP.maxOutput = maxSpeedUp;
+
+        LiftPIDDOWN = new SimplePIDController(P2,I2,D2);
+        LiftPIDDOWN.targetValue = base;
+        LiftPIDDOWN.maxOutput = maxSpeedUp;
     }
 
     public void update(robotMap r, int position, double voltage)
@@ -57,15 +75,23 @@ public class liftController {
 
         CurrentPosition = position;
 
-        if(CS == liftStatus.UP) LiftPID.targetValue = down + i_up * i_multiplication;
+        if(CS == liftStatus.UP) LiftPIDUP.targetValue = down + i_up * i_multiplication;
 
 
 
-        double powerLift = LiftPID.update(position) + Kg;
-        powerLift = Math.max(-1,Math.min(powerLift* 14 / voltage,1));
-        CurrentSpeed=powerLift;
+        double powerLiftUp = LiftPIDUP.update(position) + Kg;
+        powerLiftUp = Math.max(-1,Math.min(powerLiftUp* 14 / voltage,1));
+        CurrentSpeed=powerLiftUp;
 
-        r.lift.setPower(powerLift);
+        double powerLiftDown = LiftPIDDOWN.update(position) + Kg;
+        powerLiftDown = Math.max(-1,Math.min(powerLiftDown* 14 / voltage,1));
+        CurrentSpeed=powerLiftDown;
+
+        double powerLiftFinal;
+
+        powerLiftFinal = (pid == 0) ? powerLiftDown : powerLiftUp;
+
+        r.lift.setPower(powerLiftFinal);
 
         if(CS != PS || CS == INITIALIZE )
         {
@@ -73,19 +99,31 @@ public class liftController {
             {
                 case INITIALIZE:
                 {
-                    LiftPID.targetValue = 0;
+                    LiftPIDUP.targetValue = -10;
                     break;
                 }
 
                 case UP:
                 {
-                    LiftPID.targetValue = down + i_up * i_multiplication;
+                    LiftPIDUP.targetValue = down + i_up * i_multiplication;
                     break;
                 }
 
                 case DOWN:
                 {
-                    LiftPID.targetValue = -20;
+                    LiftPIDDOWN.targetValue = -10;
+                    break;
+                }
+
+                case PRELOAD_YELLOW:
+                {
+                    LiftPIDUP.targetValue = 250;
+                    break;
+                }
+
+                case CYCLE:
+                {
+                    LiftPIDUP.targetValue = 230;
                     break;
                 }
             }

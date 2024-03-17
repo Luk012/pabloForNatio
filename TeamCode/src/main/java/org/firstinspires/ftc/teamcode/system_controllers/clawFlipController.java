@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.system_controllers;
 
 import static org.firstinspires.ftc.teamcode.system_controllers.clawFlipController.clawFlipStatus.COLLECT;
+import static org.firstinspires.ftc.teamcode.system_controllers.clawFlipController.clawFlipStatus.DRIVE;
 import static org.firstinspires.ftc.teamcode.system_controllers.clawFlipController.clawFlipStatus.INITIALIZE;
+import static org.firstinspires.ftc.teamcode.system_controllers.clawFlipController.clawFlipStatus.PURPLE;
 import static org.firstinspires.ftc.teamcode.system_controllers.clawFlipController.clawFlipStatus.SCORE;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -26,6 +28,7 @@ public class clawFlipController {
 
     public static clawFlipStatus CS = INITIALIZE, PS = INITIALIZE;
 
+    public static  double init = 0.95;
     public static double collect = 0.78;
     public static double score = 0.3;
     public static double drive = 0.95;
@@ -33,12 +36,12 @@ public class clawFlipController {
 
     public void update(robotMap r) {
 
-        if (CS != PS || CS == INITIALIZE) {
+        if (CS != PS || CS == INITIALIZE || CS == COLLECT || CS == SCORE || CS == DRIVE || CS == PURPLE) {
 
             switch (CS) {
 
                 case INITIALIZE: {
-                    r.clawFlip.setPosition(drive);
+                    r.clawFlip.setPosition(init);
                     break;
                 }
 

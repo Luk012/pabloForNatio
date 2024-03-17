@@ -16,8 +16,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class LocalizationTest extends LinearOpMode {
 
 
-    public static double x_start = -43, y_start = -61, angle_start = 270;
-    Pose2d start_pose = new Pose2d(x_start, y_start,Math.toRadians(angle_start));
+    public static double x_start =0, y_start = 0, angle_start = 90;
+    Pose2d start_pose = new Pose2d(0, 0,Math.toRadians(0));
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);

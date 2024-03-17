@@ -2,13 +2,12 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.teamcode.globals.SimplePIDController;
 import org.firstinspires.ftc.teamcode.globals.robotMap;
@@ -35,6 +34,8 @@ public class PidControllerTest extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         List <LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        double loopTime = 0;
 
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
@@ -73,6 +74,22 @@ public class PidControllerTest extends LinearOpMode {
             telemetry.addData("powerColectare", powerColectare);
             telemetry.addData("TargetLift",hello.targetValue);
             telemetry.addData("Error", hello.measuredError(ColectarePosition));
+
+            double loop = System.nanoTime();
+
+            telemetry.addData("hz ", 1000000000 / (loop - loopTime));
+
+            loopTime = loop;
+
+
+//            telemetry.addData("distance 1", robot.pixelLeft.getState());
+//            telemetry.addData("distance2", robot.pixelRight.getState());
+//            telemetry.addData("distance3", robot.back.getDistance(DistanceUnit.CM));
+//            telemetry.addData("distance4", robot.extendoDistance.getDistance(DistanceUnit.CM));
+//            telemetry.addData("encoder1", robot.leftBack.getCurrentPosition());
+//            telemetry.addData("encoder2", robot.leftFront.getCurrentPosition());
+//            telemetry.addData("encoder3", robot.rightBack.getCurrentPosition());
+//            telemetry.addData("encoder4", robot.rightFront.getCurrentPosition());
             if (Kp!=hello.p || Kd!=hello.d || Ki!=hello.i || maxSpeed !=hello.maxOutput )
             {
                 hello.p = Kp;

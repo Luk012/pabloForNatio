@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.globals;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -54,7 +55,7 @@ public class robotMap {
     public DigitalChannel pixelLeft = null;
     public DigitalChannel pixelRight = null;
    // public DistanceSensor left = null;
-    public DistanceSensor right = null;
+   // public DistanceSensor right = null;
 
     /**
      * ENDGAME
@@ -112,7 +113,7 @@ public class robotMap {
         back = Init.get(DistanceSensor.class, "back");
         extendoDistance = Init.get(DistanceSensor.class, "extendoDistance");
        // left = Init.get(DistanceSensor.class, "left");
-        right = Init.get(DistanceSensor.class, "right");
+       // right = Init.get(DistanceSensor.class, "right");
         pixelLeft = Init.get(DigitalChannel.class, "pixelLeft");
         pixelRight = Init.get(DigitalChannel.class, "pixelRight");
 
@@ -147,6 +148,17 @@ public class robotMap {
 
         extendoLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         collect.setDirection(DcMotorSimple.Direction.REVERSE);
+
+//        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        extendoLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        extendoLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        extendoRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        extendoRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 

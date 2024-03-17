@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.system_controllers;
 
 
+import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.COLLECT;
+import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.DRIVE;
 import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.INITIALIZE;
+import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.NEUTRAL;
+import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.PRELOAD;
+import static org.firstinspires.ftc.teamcode.system_controllers.fourbarController.fourbarStatus.SCORE;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -27,6 +32,7 @@ public class fourbarController {
 
     public static fourbarStatus CS = INITIALIZE, PS = INITIALIZE;
 
+    public static  double init = 0.8;
     public static double score = 0.18;
     public static double collect = 0.92;
     public static double drive = 0.8;
@@ -35,13 +41,13 @@ public class fourbarController {
 
     public void update(robotMap r) {
 
-        if (PS != CS || CS == INITIALIZE) {
+        if (PS != CS || CS == INITIALIZE || CS == COLLECT || CS == SCORE || CS == DRIVE || CS == NEUTRAL || CS == PRELOAD) {
 
             switch (CS) {
 
                 case INITIALIZE: {
-                    r.fourbarLeft.setPosition(drive);
-                    r.fourbarRight.setPosition(drive);
+                    r.fourbarLeft.setPosition(init);
+                    r.fourbarRight.setPosition(init);
                     break;
                 }
 

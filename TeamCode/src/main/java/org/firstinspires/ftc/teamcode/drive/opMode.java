@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive;
 
 import static org.firstinspires.ftc.teamcode.system_controllers.collectAngleController.collectAngle_i;
 import static org.firstinspires.ftc.teamcode.system_controllers.droneController.droneStatus.RELEASED;
+import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.DRIVE;
 import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.EXTENDED;
 import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.RETRACTED;
 import static org.firstinspires.ftc.teamcode.system_controllers.latchDropController.latchDropStatus.DROP_BOTH;
@@ -24,6 +25,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.globals.robotMap;
 import org.firstinspires.ftc.teamcode.system_controllers.droneController;
 import org.firstinspires.ftc.teamcode.system_controllers.latchDropController;
@@ -287,6 +289,17 @@ public class opMode extends LinearOpMode {
                 }
             }
 
+            if(!previousGamepad1.left_bumper && currentGamepad1.left_bumper)
+            {
+                if(extendo.CS != DRIVE)
+                {
+                    extendo.CS = DRIVE;
+                } else
+                {
+                    extendo.CS = RETRACTED;
+                }
+            }
+
             extend_power = gamepad1.right_trigger - gamepad1.left_trigger;
 
             if(extendo.CS == RETRACTED)
@@ -325,7 +338,7 @@ public class opMode extends LinearOpMode {
             if(lift.CS == UP)
             {  if(!previousGamepad2.dpad_up && currentGamepad2.dpad_up)
             {
-                lift.i_up = Math.min(10, lift.i_up+1);
+                lift.i_up = Math.min(14, lift.i_up+1);
             }
 
             if(!previousGamepad2.dpad_down && currentGamepad2.dpad_down)
@@ -365,7 +378,7 @@ public class opMode extends LinearOpMode {
              * END_GAME
              */
 
-            if(!previousGamepad1.left_bumper && currentGamepad1.left_bumper)
+            if(!previousGamepad1.dpad_up && currentGamepad1.dpad_up)
             {
                 if(pto.CS != ON)
                 {
@@ -420,6 +433,10 @@ public class opMode extends LinearOpMode {
             telemetry.addData("collectangle", collectAngle.CS);
             telemetry.addData("collectanglei", collectAngle_i);
             telemetry.addData("fourbarstatus", fourbar.CS);
+            telemetry.addData("liftpos", r.lift.getCurrentPosition());
+            telemetry.addData("amps extendo left", r.extendoLeft.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("amps extendo right", r.extendoRight.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("amps lift", r.lift.getCurrent(CurrentUnit.AMPS));
 //            telemetry.addData("x", poseEstimate.getX());
 //            telemetry.addData("y", poseEstimate.getY());
 //            telemetry.addData("heading", poseEstimate.getHeading());

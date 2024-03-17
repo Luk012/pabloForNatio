@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.system_controllers;
 
+
 import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.EXTENDED;
 import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.INITIALIZE;
+import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.PURPLE;
+import static org.firstinspires.ftc.teamcode.system_controllers.extendoController.extendoStatus.RETRACTED;
+
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -16,12 +20,14 @@ public class extendoController {
         INITIALIZE,
         RETRACTED,
         EXTENDED,
-        AUTO,
+        PURPLE,
+        CYCLE,
+        DRIVE,
     }
 
-    public static double Kp = 0.0065;
-    public static double Ki = 0.0043;
-    public static double Kd = 0.001;
+    public static double Kp = 0.0041;
+    public static double Ki = 0.0033;
+    public static double Kd = 0.0033;
 
     public static double maxSpeed = 1;
 
@@ -32,8 +38,12 @@ public class extendoController {
     public static double CurrentPosition = 0;
     public static double retracted = -7;
     public static double extended = 900;
-    public static double auto[] = {420, 375, 375, 375, 375};
-    public int ciclu = 0;
+    public static double drive = 600;
+    public static double purple[] = {410, 160, 375};
+    public static double cycle[] = {920, 920, 920};
+    public static int cycle_i = 0;
+    public static int caz = 0;
+
 
     public static double extend_multiply_index = 0;
 
@@ -47,18 +57,24 @@ public class extendoController {
       public void update(robotMap r, int position, double powerCap, double voltage)
       {
 
-          if(CS == EXTENDED)
-          {
-              extendoPID.targetValue = extended + extend_multiply_index;
-          }
-
           CurrentPosition = position;
           double powerColectare = extendoPID.update(position);
-          powerColectare = Math.max(-powerCap,Math.min(powerColectare* 14 / voltage,powerCap));
+          powerColectare =  Math.max(-powerCap,Math.min(powerColectare* 14 / voltage,powerCap));
          r.extendoLeft.setPower(powerColectare);
           r.extendoRight.setPower(powerColectare);
 
-         if(CS != PS || CS == INITIALIZE)
+          if(CS == EXTENDED)
+      {
+          extendoPID.targetValue = extended + extend_multiply_index;
+      }
+
+//          if(CS == SENSOR && CurrentPosition >= auto[ciclu] - 10)
+//          {
+//              extendoPID.targetValue = difference;
+//              extendoPID.maxOutput = 0.6;
+//          }
+
+         if(CS != PS || CS == INITIALIZE || CS == EXTENDED || CS == RETRACTED || CS == PURPLE )
          {
              switch (CS)
              {
@@ -83,12 +99,31 @@ public class extendoController {
                      break;
                  }
 
-                 case AUTO:
+                 case PURPLE:
                  {
-                     extendoPID.targetValue = auto[ciclu];
+                     extendoPID.targetValue = purple[caz];
+                     extendoPID.maxOutput = 0.75;
+                     //CS = SENSOR;
+                     break;
+                 }
+
+                 case CYCLE:
+                 {
+                     extendoPID.targetValue = cycle[cycle_i];
                      extendoPID.maxOutput = 1;
                      break;
                  }
+
+                 case DRIVE:
+                 {
+                     extendoPID.targetValue = drive;
+                     extendoPID.maxOutput = 1;
+                     break;
+                 }
+
+
+
+
              }
 
              PS = CS;
